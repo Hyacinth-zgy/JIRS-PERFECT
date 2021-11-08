@@ -1,4 +1,9 @@
-export const List = ({ list }) => {
+import { useEffect } from "react";
+
+export const List = ({ list, users }) => {
+  useEffect(() => {
+    console.log(list);
+  }, [list]);
   return (
     <table>
       <thead>
@@ -8,11 +13,15 @@ export const List = ({ list }) => {
         </tr>
       </thead>
       <tbody>
-        {list.map((project) => {
+        {list?.map((project) => {
           return (
-            <tr>
+            <tr key={project.name}>
               <td>{project.name}</td>
-              <td>{project.personId}</td>
+              <td>
+                {users.find((item) => {
+                  return project.personId === item.id;
+                })?.name || "未知"}
+              </td>
             </tr>
           );
         })}
