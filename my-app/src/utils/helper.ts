@@ -32,7 +32,7 @@ export const cleanObject = (object: object) => {
 // };
 
 // 使用自定义hook来实现debounce 当parm变化时，返回一个最终的params
-export const useDebounce = (param: any, delay?: number) => {
+export const useDebounce = <V>(param: V, delay?: number) => {
   const [debounceValue, setDebounceValue] = useState(param);
   useEffect(() => {
     const timeout = setTimeout(() => setDebounceValue(param), delay);
