@@ -38,7 +38,6 @@ export const Index = () => {
   return (
     <div>
       <SearchPannel
-        setList={setList}
         setParam={setParam}
         param={param}
         users={users}

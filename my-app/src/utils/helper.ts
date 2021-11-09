@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 
-export const isVoid = (value) => {
+export const isVoid = (value: unknown) => {
   return value === undefined || value === null || value === "";
 };
 
-export const cleanObject = (object) => {
+export const cleanObject = (object: object) => {
   const result = { ...object };
   Object.keys(object).forEach((key) => {
+    // @ts-ignore
     const value = result[key];
     if (isVoid(value)) {
+      // @ts-ignore
       delete result[key];
     }
   });
@@ -16,21 +18,21 @@ export const cleanObject = (object) => {
 };
 
 // debounde函数原理
-export const debounce = function (callback) {
-  let timeId;
-  return () => {
-    if (timeId) {
-      clearTimeout(timeId);
-    } else {
-      timeId = setTimeout(() => {
-        callback();
-      }, 2000);
-    }
-  };
-};
+// export const debounce = function (callback) {
+//   let timeId;
+//   return () => {
+//     if (timeId) {
+//       clearTimeout(timeId);
+//     } else {
+//       timeId = setTimeout(() => {
+//         callback();
+//       }, 2000);
+//     }
+//   };
+// };
 
 // 使用自定义hook来实现debounce 当parm变化时，返回一个最终的params
-export const useDebounce = (param, delay) => {
+export const useDebounce = (param: any, delay?: number) => {
   const [debounceValue, setDebounceValue] = useState(param);
   useEffect(() => {
     const timeout = setTimeout(() => setDebounceValue(param), delay);
@@ -40,7 +42,7 @@ export const useDebounce = (param, delay) => {
   return debounceValue;
 };
 
-export const useMount = (callback) => {
+export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback();
   }, []);

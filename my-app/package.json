@@ -44,6 +44,7 @@
     ]
   },
   "devDependencies": {
+    "@types/qs": "^6.9.7",
     "husky": "^7.0.4",
     "lint-staged": "^11.2.6",
     "prettier": "2.4.1"

@@ -1,6 +1,19 @@
 import { useEffect } from "react";
+import { User } from './search-panel';
 
-export const List = ({ list, users }) => {
+interface Project {
+  id: string,
+  name: string,
+  organization: string,
+  personId: string,
+  created: string
+}
+
+interface ListProps {
+  list: Project[],
+  users: User[]
+}
+export const List = ({ list, users }: ListProps) => {
   useEffect(() => {
     console.log(list);
   }, [list]);
