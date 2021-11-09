@@ -1,8 +1,7 @@
 import { FormEvent } from "react";
 const hanleSubmit = (evt: FormEvent) => {
-  console.log(evt)
   evt.preventDefault()
-  return
+  // const username = evt.target.input[0]<HTMLInputElement>.value
 };
 export const LoginScreen = () => {
   return (
