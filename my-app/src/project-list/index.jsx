@@ -1,7 +1,7 @@
 import { List } from "./list";
 import { useState, useEffect } from "react";
 import { SearchPannel } from "./search-panel";
-import { cleanObject } from "utils/helper";
+import { cleanObject, useDebounce, useMount } from "utils/helper";
 import qs from "qs";
 const baseURL = process.env.REACT_APP_BASE_URL;
 export const Index = () => {
@@ -11,27 +11,30 @@ export const Index = () => {
   });
   const [list, setList] = useState([]);
   const [users, setUsers] = useState([]);
-  useEffect(() => {
+  const debounceValue = useDebounce(param, 2000);
+  useMount(() => {
     fetch(baseURL + "/users").then(async (res) => {
       if (res.ok) {
         setUsers(await res.json());
       }
     });
+  });
+  useMount(() => {
     fetch(baseURL + "/projects").then(async (res) => {
       if (res.ok) {
         setList(await res.json());
       }
     });
-  }, []);
+  });
   useEffect(() => {
-    fetch(baseURL + `/projects?${qs.stringify(cleanObject(param))}`).then(
-      async (res) => {
-        if (res.ok) {
-          setList(await res.json());
-        }
+    fetch(
+      baseURL + `/projects?${qs.stringify(cleanObject(debounceValue))}`
+    ).then(async (res) => {
+      if (res.ok) {
+        setList(await res.json());
       }
-    );
-  }, [param]);
+    });
+  }, [debounceValue]);
   return (
     <div>
       <SearchPannel
