@@ -31,7 +31,9 @@ export const cleanObject = (object: object) => {
 //   };
 // };
 
+
 // 使用自定义hook来实现debounce 当parm变化时，返回一个最终的params
+// 使用泛型 V ,这时候返回的debounceValue 也会被推断为 V 类型的，这里会根据传入param的类型来推断
 export const useDebounce = <V>(param: V, delay?: number) => {
   const [debounceValue, setDebounceValue] = useState(param);
   useEffect(() => {
@@ -47,3 +49,27 @@ export const useMount = (callback: () => void) => {
     callback();
   }, []);
 };
+
+
+// 实现useArr
+export const useArrar = <T>(initialArray: T[]) => {
+  const [value, setValue] = useState(initialArray);
+  const add = (item: T) => {
+    setValue([...value, item])
+  }
+  const removeIndex = (index: number) => {
+    const copy = [...value];
+    copy.splice(index, 1);
+    setValue(copy)
+  }
+  const clear = () => {
+    setValue([])
+  }
+  return {
+    add,
+    removeIndex,
+    clear,
+    value,
+    setValue
+  }
+}
