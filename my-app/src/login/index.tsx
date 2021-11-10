@@ -1,4 +1,4 @@
-const baseURL = process.env.REACT_APP_BASE_URL;
+const baseURL = process.env.REACT_APP_API_URL;
 export const LoginScreen = () => {
   let handlSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   let login: (username: string, password: string) => void;

@@ -2,7 +2,7 @@ import { List } from "./list";
 import { useState, useEffect } from "react";
 import { SearchPannel } from "./search-panel";
 import { cleanObject, useDebounce, useMount } from "utils/helper";
-import qs from "qs";
+import qs from 'qs';
 const baseURL = process.env.REACT_APP_BASE_URL;
 export const Index = () => {
   const [param, setParam] = useState({
