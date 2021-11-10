@@ -4,7 +4,7 @@ import { SearchPannel } from "./search-panel";
 import { cleanObject, useDebounce, useMount } from "utils/helper";
 import qs from 'qs';
 const baseURL = process.env.REACT_APP_BASE_URL;
-export const Index = () => {
+export const ProjectListScreen = () => {
   const [param, setParam] = useState({
     name: "",
     personId: "",

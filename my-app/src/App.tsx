@@ -1,16 +1,17 @@
-import React from 'react';
-import { Index } from 'project-list/index';
-import { LoginScreen } from 'login';
-import { AppProviders } from 'context'
+// PAKAGE
 import './App.css';
+import { useAuth } from 'context/auth-context';
+import { UnauthenticatedApp } from 'unauthenticated';
+import { AuthenticatedApp } from 'authenticated-app';
 
+// FUNCTION JSX
 function App() {
+  const { user } = useAuth();
   return (
     <div className="App">
-      {/* <Index></Index> */}
-      <AppProviders>
-        <LoginScreen />
-      </AppProviders>
+      {
+        user ? <AuthenticatedApp /> : <UnauthenticatedApp />
+      }
     </div>
   );
 }
