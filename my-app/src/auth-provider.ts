@@ -2,6 +2,7 @@ import { User } from 'project-list/search-panel';
 
 const localStorageKey = '__auth_provider_token__';
 const baseURL = process.env.REACT_APP_API_URL;
+
 export const getToken = () => window.localStorage.getItem(localStorageKey);
 
 export const handleUserResponse = ({ user }: { user: User }) => {
@@ -9,8 +10,8 @@ export const handleUserResponse = ({ user }: { user: User }) => {
   return user
 }
 
-export const login = (data: { username: string, password: string }) => {
-  fetch(baseURL + '/login', {
+export const login = (data: { username: string, password: string }): Promise<User> => {
+  return fetch(baseURL + '/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -18,13 +19,14 @@ export const login = (data: { username: string, password: string }) => {
     body: JSON.stringify(data),
   }).then(async (res) => {
     if (res.ok) {
-      handleUserResponse(await res.json())
+      return handleUserResponse(await res.json())
     }
+    return Promise.reject(data)
   })
 }
 
-export const register = (data: { username: string, password: string }) => {
-  fetch(baseURL + '/register', {
+export const register = (data: { username: string, password: string }): Promise<User> => {
+  return fetch(baseURL + '/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -32,9 +34,10 @@ export const register = (data: { username: string, password: string }) => {
     body: JSON.stringify(data),
   }).then(async (res) => {
     if (res.ok) {
-      handleUserResponse(await res.json())
+      return handleUserResponse(await res.json())
     }
+    return Promise.reject(data)
   })
 }
 
-export const logout = () => window.localStorage.removeItem(localStorageKey)
+export const logout = async () => window.localStorage.removeItem(localStorageKey)
