@@ -1,6 +1,7 @@
 export interface User {
   id: string,
-  name: string
+  name: string,
+  token: string
 }
 
 export interface SearchPannelProps {
