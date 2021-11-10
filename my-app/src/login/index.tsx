@@ -1,11 +1,26 @@
-import { FormEvent } from "react";
-const hanleSubmit = (evt: FormEvent) => {
-  evt.preventDefault()
-  // const username = evt.target.input[0]<HTMLInputElement>.value
-};
+const baseURL = process.env.REACT_APP_BASE_URL;
 export const LoginScreen = () => {
+  let handlSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  let login: (username: string, password: string) => void;
+  login = (username, password) => {
+    fetch(baseURL + '/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    }).then(async (res) => {
+      console.log(await res.json())
+    })
+  }
+  handlSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const username = (event.currentTarget.elements[0] as HTMLInputElement).value;
+    const password = (event.currentTarget.elements[1] as HTMLInputElement).value;
+    login(username, password)
+  }
   return (
-    <form onSubmit={hanleSubmit}>
+    <form onSubmit={handlSubmit}>
       <div>
         <label htmlFor="username">
           用户名
