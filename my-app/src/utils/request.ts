@@ -1,17 +1,19 @@
 // PAKAGE
+import qs from 'qs'
 import * as auth from "auth-provider";
+import { useAuth } from "context/auth-context";
 
 // VARIABLE
 const apiURL = process.env.REACT_APP_API_URL;
 
 // INTERFACR
 interface Config extends RequestInit {
-  token: string,
-  data: object
+  token?: string,
+  data?: object
 }
 
 // FUNCTIONad
-export const http = async (endpoint: string, { data, token, headers, ...customConfig }: Config) => {
+export const http = async (endpoint: string, { data, token, headers, ...customConfig }: Config = {}) => {
   const config = {
     methold: 'GET',
     headers: {
@@ -19,6 +21,11 @@ export const http = async (endpoint: string, { data, token, headers, ...customCo
       'Content-Type': data ? 'application/json' : ''
     },
     ...customConfig
+  }
+  if (config.methold.toUpperCase() === 'GET') {
+    endpoint += `?${qs.stringify(data)}`;
+  } else {
+    config.body = JSON.stringify(data || {});
   }
   return window.fetch(`${apiURL}/${endpoint}`, config).then(async res => {
     if (res.status === 401) {
@@ -33,4 +40,11 @@ export const http = async (endpoint: string, { data, token, headers, ...customCo
       return Promise.reject(data)
     }
   })
+}
+
+export const useHttp = () => {
+  const { user } = useAuth();
+  return (...[endpoint, config]: Parameters<typeof http>) => {
+    return http(endpoint, { ...config, token: user?.token || '' })
+  }
 }
