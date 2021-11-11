@@ -10,7 +10,7 @@ interface Config extends RequestInit {
   data: object
 }
 
-// FUNCTION
+// FUNCTIONad
 export const http = async (endpoint: string, { data, token, headers, ...customConfig }: Config) => {
   const config = {
     methold: 'GET',
