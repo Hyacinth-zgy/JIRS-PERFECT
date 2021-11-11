@@ -1,8 +1,10 @@
 
 // 依赖
-import React, { ReactNode, useState } from 'react';
+import { http } from 'utils/request';
 import * as auth from 'auth-provider';
+import { useMount } from 'utils/helper';
 import { User } from 'project-list/search-panel';
+import React, { ReactNode, useState } from 'react';
 
 // 接口定义
 interface AuthForm {
@@ -22,6 +24,18 @@ const AuthContext = React.createContext<
 >(undefined);
 AuthContext.displayName = "AuthContext";
 
+// bootstrapUser
+// 初始化用户信息 
+const bootstrapUser = async () => {
+  let user = null;
+  const token = auth.getToken();
+  if (token) {
+    const data = await http('me', { token });
+    user = data.user;
+  }
+  return user
+}
+
 
 // 使用context包装
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -33,6 +47,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(user)
   })
   const logout = () => auth.logout().then(() => { setUser(null) });
+  useMount(() => {
+    bootstrapUser().then(setUser);
+  });
   return (
     <AuthContext.Provider
       value={{ user, login, register, logout }}
