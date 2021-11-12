@@ -1,3 +1,5 @@
+import { Table } from 'antd';
+import { spawn } from 'child_process';
 import { useEffect } from "react";
 import { User } from './search-panel';
 
@@ -18,27 +20,22 @@ export const List = ({ list, users }: ListProps) => {
     console.log(list);
   }, [list]);
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>名称</th>
-          <th>负责人</th>
-        </tr>
-      </thead>
-      <tbody>
-        {list?.map((project) => {
-          return (
-            <tr key={project.name}>
-              <td>{project.name}</td>
-              <td>
-                {users.find((item) => {
-                  return project.personId === item.id;
-                })?.name || "未知"}
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+    <Table pagination={false} columns={[{
+      title: '名称',
+      dataIndex: 'name',
+      sorter: (a, b) => {
+        return a.name.localeCompare(b.name)
+      }
+    }, {
+      title: "负责人",
+      render(value, project) {
+        return <span>
+          {users.find((item) => {
+            return project.personId === item.id;
+          })?.name || "未知"}
+        </span>
+      }
+    }]} dataSource={list}>
+    </Table>
   );
 };
