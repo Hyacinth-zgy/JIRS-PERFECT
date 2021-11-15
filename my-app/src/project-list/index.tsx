@@ -37,7 +37,7 @@ export const ProjectListScreen = () => {
         param={param}
         users={users}
       ></SearchPannel>
-      <List list={list} users={users}></List>
+      <List dataSource={list} users={users}></List>
     </Container>
   );
 };

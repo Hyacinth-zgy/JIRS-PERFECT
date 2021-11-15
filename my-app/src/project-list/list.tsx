@@ -1,4 +1,4 @@
-import { Table } from 'antd';
+import { Table, TableProps } from 'antd';
 import { spawn } from 'child_process';
 import dayjs from 'dayjs';
 import { useEffect } from "react";
@@ -12,14 +12,11 @@ interface Project {
   created: string,
 }
 
-interface ListProps {
-  list: Project[],
+// 直接继承TableProps就不需要自己写loading属性
+interface ListProps extends TableProps<Project> {
   users: User[]
 }
-export const List = ({ list, users }: ListProps) => {
-  useEffect(() => {
-    console.log(list);
-  }, [list]);
+export const List = ({ users,...props }: ListProps) => {
   return (
     <Table pagination={false} columns={[{
       title: '名称',
@@ -50,7 +47,7 @@ export const List = ({ list, users }: ListProps) => {
           }
         </span>
       }
-    }]} dataSource={list}>
+    }]} {...props}>
     </Table>
   );
 };
