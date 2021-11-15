@@ -75,3 +75,27 @@ type Pick<T,K extends keyof T>={
 type Age = Exclude<Personkey,'name'>
 Age='age'
 
+# 使用CSS-IN-JS时，可以自定义组件
+这种形式可以按照react组件正常使用，并且可以在用传入的属性做一些逻辑上的控制，非常的方便
+export const Row = styled.div<{
+  gap?: number | boolean,
+  between?: boolean,
+  marginBottom?: number
+}>`
+  display: flex;
+  align-items: center;
+  justify-content: ${props => (props.between ? 'space-between' : undefined)};
+  margin-bottom: ${props => props.marginBottom + 'rem'};
+  > * {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+    margin-right:  ${(props) =>
+    typeof props.gap === "number" ? props.gap + "rem" : props.gap ? "2rem" : undefined};
+  }
+`
+也可以传入styled继续封装，例如
+const Header = styled(Row)`
+  padding: 3.2rem;
+  box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
+  z-index: 1;
+`
