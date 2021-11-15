@@ -6,12 +6,14 @@ import { SearchPannel } from "./search-panel";
 import { cleanObject, useDebounce, useMount } from "utils/helper";
 import qs from 'qs';
 import styled from "@emotion/styled";
+import { Typography } from "antd";
 // VARIBLE
 
 
 // FONCTION
 export const ProjectListScreen = () => {
-  const client = useHttp();
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<null | Error>(null);
   const [param, setParam] = useState({
     name: "",
     personId: "",
@@ -19,11 +21,18 @@ export const ProjectListScreen = () => {
   const [list, setList] = useState([]);
   const [users, setUsers] = useState([]);
   const debounceValue = useDebounce(param, 2000);
+  const client = useHttp();
   useMount(() => {
     client('users').then(setUsers)
   });
   useMount(() => {
-    client('projects', { data: cleanObject(debounceValue) }).then(setList)
+    setIsLoading(true);
+    client('projects', { data: cleanObject(debounceValue) }).then(setList).catch(error => {
+      setError(error);
+      setList([]);
+    }).finally(() => {
+      setIsLoading(false)
+    })
   });
   useEffect(() => {
     client('projects', { data: cleanObject(debounceValue) }).then(setList)
@@ -37,7 +46,10 @@ export const ProjectListScreen = () => {
         param={param}
         users={users}
       ></SearchPannel>
-      <List dataSource={list} users={users}></List>
+      {
+        error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text> : null
+      }
+      <List loading={isLoading} dataSource={list} users={users}></List>
     </Container>
   );
 };
