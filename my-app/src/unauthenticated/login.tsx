@@ -1,4 +1,5 @@
 // PAKAGE
+import { LongButton } from './index'
 import { Form, Input, Button } from 'antd';
 import { useAuth } from "context/auth-context";
 
@@ -30,7 +31,7 @@ export const LoginScreen = () => {
         <Input placeholder={'password'} type="text" id={"password"} />
       </Form.Item>
       <Form.Item>
-        <Button htmlType={"submit"} type={'primary'}>Login</Button>
+        <LongButton htmlType={"submit"} type={'primary'}>Login</LongButton>
       </Form.Item>
     </Form>
   );
