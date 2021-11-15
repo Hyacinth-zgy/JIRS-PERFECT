@@ -1,4 +1,4 @@
-import { Input, Select } from 'antd';
+import { Input, Select, Form } from 'antd';
 export interface User {
   id: string,
   name: string,
@@ -15,38 +15,43 @@ export interface SearchPannelProps {
 }
 export const SearchPannel = ({ setParam, param, users }: SearchPannelProps) => {
   return (
-    <div>
-      <Input
-        type="text"
-        onInput={(value) => {
-          console.log(value)
-        }}
-        onChange={(evt) => {
-          console.log(evt)
-          setParam({
-            ...param,
-            name: evt.target.value,
-          });
-        }}
-      />
-      <Select
-        value={param.personId}
-        onChange={(value) => {
-          setParam({
-            ...param,
-            personId: value
-          });
-        }}
-      >
-        <Select.Option value={""}>负责人</Select.Option>
-        {users.map((user) => {
-          return (
-            <Select.Option value={user.id} key={user.id}>
-              {user.name}
-            </Select.Option>
-          );
-        })}
-      </Select>
-    </div>
+    <Form style={{ marginBottom: '2rem' }} layout={'inline'}>
+      <Form.Item>
+        <Input
+          type="text"
+          placeholder={'Project name'}
+          onInput={(value) => {
+            console.log(value)
+          }}
+          onChange={(evt) => {
+            console.log(evt)
+            setParam({
+              ...param,
+              name: evt.target.value,
+            });
+          }}
+        />
+      </Form.Item>
+      <Form.Item>
+        <Select
+          value={param.personId}
+          onChange={(value) => {
+            setParam({
+              ...param,
+              personId: value
+            });
+          }}
+        >
+          <Select.Option value={""}>负责人</Select.Option>
+          {users.map((user) => {
+            return (
+              <Select.Option value={user.id} key={user.id}>
+                {user.name}
+              </Select.Option>
+            );
+          })}
+        </Select>
+      </Form.Item>
+    </Form>
   );
 };
