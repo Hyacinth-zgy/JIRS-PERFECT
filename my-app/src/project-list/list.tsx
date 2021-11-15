@@ -8,7 +8,7 @@ interface Project {
   name: string,
   organization: string,
   personId: string,
-  created: string
+  created: string,
 }
 
 interface ListProps {
@@ -26,7 +26,12 @@ export const List = ({ list, users }: ListProps) => {
       sorter: (a, b) => {
         return a.name.localeCompare(b.name)
       }
-    }, {
+    },
+    {
+      title: '部门',
+      dataIndex: 'organization'
+    },
+    {
       title: "负责人",
       render(value, project) {
         return <span>

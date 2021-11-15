@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { SearchPannel } from "./search-panel";
 import { cleanObject, useDebounce, useMount } from "utils/helper";
 import qs from 'qs';
+import styled from "@emotion/styled";
 // VARIBLE
 
 
@@ -28,13 +29,18 @@ export const ProjectListScreen = () => {
     client('projects', { data: cleanObject(debounceValue) }).then(setList)
   }, [debounceValue]);
   return (
-    <div>
+    <Container>
+      <h1>项目列表</h1>
       <SearchPannel
         setParam={setParam}
         param={param}
         users={users}
       ></SearchPannel>
       <List list={list} users={users}></List>
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  padding: 3.2rem;
+`
