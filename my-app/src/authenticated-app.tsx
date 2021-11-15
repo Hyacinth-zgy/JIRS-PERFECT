@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { useAuth } from "context/auth-context";
 import { ProjectListScreen } from "project-list";
 import { ReactComponent as SoftwareLogo } from 'assets/software-logo.svg'
-import { Dropdown, Menu } from "antd";
+import { Dropdown, Menu, Button } from "antd";
 
 // FUNCTION
 export const AuthenticatedApp = () => {
@@ -17,17 +17,15 @@ export const AuthenticatedApp = () => {
         <h3>用户</h3>
       </HeaderLeft>
       <HeaderRight>
-        {/* <button onClick={() => { logout() }}>退出登录</button> */}
         <Dropdown overlay={
           <Menu>
             <Menu.Item key={'lagput'}>
-              <a onClick={() => { logout() }}>退出登录</a>
+              <Button type={'link'} onClick={logout}>退出登录</Button>
             </Menu.Item>
           </Menu>
         }>
-          <a onClick={e => e.preventDefault()}>
-            Hi!{user?.name}
-          </a>
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+          <Button type={'link'} onClick={e => e.preventDefault()}>Hi!{user?.name}</Button>
         </Dropdown>
       </HeaderRight>
     </Header>

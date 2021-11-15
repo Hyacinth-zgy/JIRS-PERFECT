@@ -4,13 +4,13 @@ export const isVoid = (value: unknown) => {
   return value === undefined || value === null || value === "";
 };
 
-export const cleanObject = (object: object) => {
+
+// [key: string]: unknown } 就表示需要的类型是一个键值对的对象，
+export const cleanObject = (object: { [key: string]: unknown }) => {
   const result = { ...object };
   Object.keys(object).forEach((key) => {
-    // @ts-ignore
     const value = result[key];
     if (isVoid(value)) {
-      // @ts-ignore
       delete result[key];
     }
   });
@@ -47,6 +47,8 @@ export const useDebounce = <V>(param: V, delay?: number) => {
 export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback();
+    // TODO依赖项里添加callback会造成问无限循环，这个和useCallback和useMemo有关
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
 

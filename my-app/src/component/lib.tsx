@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 
+// Row 为自定义样式组件，可接收传入的props作为参数
 export const Row = styled.div<{
   gap?: number | boolean,
   between?: boolean,
