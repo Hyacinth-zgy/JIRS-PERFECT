@@ -8,7 +8,7 @@ import { useMount } from 'utils/helper';
 import { User } from 'project-list/search-panel';
 import React, { ReactNode } from 'react';
 import { useAsync } from 'utils/use-async';
-
+import { FullPageLoading, FullPageErrorFallback } from 'component/lib'
 // 接口定义
 interface AuthForm {
   username: string,
@@ -55,11 +55,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     run(bootstrapUser())
   });
   if (isIdle || isLoading) {
-    return (
-      <FullPage>
-        <Spin size={'large'}></Spin>
-      </FullPage>
-    )
+    return <FullPageLoading></FullPageLoading>
+  }
+  if (isError) {
+    return <FullPageErrorFallback error={error}></FullPageErrorFallback>
   }
   return (
     <AuthContext.Provider
@@ -77,9 +76,3 @@ export const useAuth = () => {
   }
   return context
 }
-const FullPage = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-`
