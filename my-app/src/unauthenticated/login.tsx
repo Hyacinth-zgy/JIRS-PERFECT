@@ -2,6 +2,7 @@
 import { LongButton } from './index'
 import { Form, Input } from 'antd';
 import { useAuth } from "context/auth-context";
+import { useAsync } from 'utils/use-async';
 
 // FUNCTION JSX
 export const LoginScreen = ({ onError }: { onError: (error: Error) => void }) => {
@@ -9,6 +10,7 @@ export const LoginScreen = ({ onError }: { onError: (error: Error) => void }) =>
   // ############## let handlSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   let handlSubmit: (values: { username: string, password: string }) => void;
   const { login } = useAuth();
+  const { run, isLoading } = useAsync(undefined, { throwOnError: true })
 
   // 原生
   // ############## handlSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -21,9 +23,8 @@ export const LoginScreen = ({ onError }: { onError: (error: Error) => void }) =>
   // antd 提交事件
   handlSubmit = async ({ username, password }) => {
     try {
-      await login({ username, password })
+      await run(login({ username, password }))
     } catch (e) {
-      console.log(e)
       onError(e as Error)
     }
   }
@@ -36,7 +37,7 @@ export const LoginScreen = ({ onError }: { onError: (error: Error) => void }) =>
         <Input placeholder={'password'} type="text" id={"password"} />
       </Form.Item>
       <Form.Item>
-        <LongButton htmlType={"submit"} type={'primary'}>Login</LongButton>
+        <LongButton loading={isLoading} htmlType={"submit"} type={'primary'}>Login</LongButton>
       </Form.Item>
     </Form>
   );
