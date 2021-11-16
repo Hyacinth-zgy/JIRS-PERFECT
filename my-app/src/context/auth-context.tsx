@@ -1,10 +1,13 @@
 
 // 依赖
+import { Spin } from 'antd';
+import styled from '@emotion/styled';
 import { http } from 'utils/request';
 import * as auth from 'auth-provider';
 import { useMount } from 'utils/helper';
 import { User } from 'project-list/search-panel';
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode } from 'react';
+import { useAsync } from 'utils/use-async';
 
 // 接口定义
 interface AuthForm {
@@ -39,7 +42,8 @@ const bootstrapUser = async () => {
 
 // 使用context包装
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const { data: user, error, isLoading, isIdle, isSuccess, isError, setData: setUser, run } = useAsync<User | null>()
+  // const [user, setUser] = useState<User | null>(null);
   const login = (form: AuthForm) => auth.login(form).then(user => {
     setUser(user)
   })
@@ -48,8 +52,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   })
   const logout = () => auth.logout().then(() => { setUser(null) });
   useMount(() => {
-    bootstrapUser().then(setUser);
+    run(bootstrapUser())
   });
+  if (isIdle || isLoading) {
+    return (
+      <FullPage>
+        <Spin size={'large'}></Spin>
+      </FullPage>
+    )
+  }
   return (
     <AuthContext.Provider
       value={{ user, login, register, logout }}
@@ -66,3 +77,9 @@ export const useAuth = () => {
   }
   return context
 }
+const FullPage = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+`
