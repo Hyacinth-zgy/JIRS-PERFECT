@@ -99,3 +99,41 @@ const Header = styled(Row)`
   box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
   z-index: 1;
 `
+
+# typeof
+在TypeScript中，typeof操作符可以用来获取一个变量或对象的类型。
+interface Person {
+    name: string;
+    age: number;
+}
+const sem: Person = { name: "semlinker", age: 30}
+type Sem = typeof sem; // type Sem = Person
+在上面代码中，我们通过typeof操作符获取sem变量的类型并赋值给Sem类型变量，之后我们就可以使用Sem类型：
+const lolo: Sem = { name: "lolo", age: 5 }
+你也可以对嵌套对象执行相同的操作：
+const kakuqo = {
+    name: "kakuqo",
+    age: 30,
+    address: {
+        province: '福建',
+        city: '厦门'
+    }
+}
+
+type Kakuqo = typeof kakuqo;
+/**
+ * type Kakuqo = {
+ *  name: string;
+ *  age: number;
+ *  address: {
+ *   province: string;
+ *   city: string;
+ *  }
+ * }
+ */
+ 此外，typeof操作符除了可以获取对象的结构类型之外，它也可以用来获取函数对象的类型，比如：
+ function toArray(x: number): Array<number> {
+     return [x]
+ }
+
+ type Func = typeof toArray; // -> (x: number) => number[]
