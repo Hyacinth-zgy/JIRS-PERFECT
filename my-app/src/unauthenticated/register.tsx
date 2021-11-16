@@ -1,10 +1,10 @@
 // PAKAGE
 import { LongButton } from './index'
-import { Form, Input, Button } from 'antd';
+import { Form, Input } from 'antd';
 import { useAuth } from "context/auth-context";
 
 // FUNCTION JSX
-export const RegisterScreen = () => {
+export const RegisterScreen = ({ onError }: { onError: (error: Error) => void }) => {
   // ###############let handlSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   let handlSubmit: (values: { username: string, password: string }) => void;
   const { register } = useAuth();
@@ -16,8 +16,12 @@ export const RegisterScreen = () => {
   // ###############   login({ username, password })
   // ############### }
 
-  handlSubmit = ({ username, password }) => {
-    register({ username, password })
+  handlSubmit = async ({ username, password }) => {
+    try {
+      await register({ username, password })
+    } catch (e) {
+      onError(e as Error)
+    }
   }
   return (
     <Form onFinish={handlSubmit}>

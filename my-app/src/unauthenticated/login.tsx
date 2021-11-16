@@ -1,14 +1,14 @@
 // PAKAGE
 import { LongButton } from './index'
-import { Form, Input, Button } from 'antd';
+import { Form, Input } from 'antd';
 import { useAuth } from "context/auth-context";
 
 // FUNCTION JSX
-export const LoginScreen = () => {
+export const LoginScreen = ({ onError }: { onError: (error: Error) => void }) => {
   // FUNCTION DIFINED
   // ############## let handlSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   let handlSubmit: (values: { username: string, password: string }) => void;
-  const { login, user } = useAuth();
+  const { login } = useAuth();
 
   // 原生
   // ############## handlSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -19,8 +19,13 @@ export const LoginScreen = () => {
   // ############## }
 
   // antd 提交事件
-  handlSubmit = ({ username, password }) => {
-    login({ username, password })
+  handlSubmit = async ({ username, password }) => {
+    try {
+      await login({ username, password })
+    } catch (e) {
+      console.log(e)
+      onError(e as Error)
+    }
   }
   return (
     <Form onFinish={handlSubmit}>
