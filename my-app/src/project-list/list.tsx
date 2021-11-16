@@ -1,10 +1,9 @@
-import { Table, TableProps } from 'antd';
-import { spawn } from 'child_process';
+// PAKAGE
 import dayjs from 'dayjs';
-import { useEffect } from "react";
 import { User } from './search-panel';
+import { Table, TableProps } from 'antd';
 
-interface Project {
+export interface Project {
   id: string,
   name: string,
   organization: string,
@@ -16,7 +15,7 @@ interface Project {
 interface ListProps extends TableProps<Project> {
   users: User[]
 }
-export const List = ({ users,...props }: ListProps) => {
+export const List = ({ users, ...props }: ListProps) => {
   return (
     <Table pagination={false} columns={[{
       title: '名称',
