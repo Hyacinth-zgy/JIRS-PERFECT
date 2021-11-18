@@ -17,7 +17,9 @@ export class ErrorBoundary extends React.Component<React.PropsWithChildren<{ fal
 
 
   render() {
+
     const { error } = this.state;
+    console.log(error)
     const { fallbackRender, children } = this.props;
     // 主要逻辑在于当出现错误后渲染错误的UI
     if (error) {

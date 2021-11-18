@@ -9,11 +9,9 @@ import { Dropdown, Menu, Button } from "antd";
 // FUNCTION
 export const AuthenticatedApp = () => {
   const { logout, user } = useAuth();
-  const value: any = undefined;
   return <Container>
     <Header between={true}>
       <HeaderLeft gap={true}>
-        {value.a}
         <SoftwareLogo width={'18rem'} color={'rgb(38,132,255)'} />
         <h3>项目</h3>
         <h3>用户</h3>
