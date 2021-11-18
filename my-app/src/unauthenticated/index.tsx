@@ -7,20 +7,17 @@ import { Card, Divider, Button, Typography } from 'antd';
 import styled from '@emotion/styled';
 import { LoginScreen } from "./login";
 import { RegisterScreen } from "./register";
-import { V4MAPPED } from "dns";
+import { useDocumentTitle } from "project-list/test";
 
 
 // RENDER
 export const UnauthenticatedApp = () => {
+  useDocumentTitle('登录')
   const [isRegister, setIsRegister] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   return <Container>
     <Header></Header>
     <Background />
-    <button onClick={() => {
-      console.log(1)
-      throw new Error('点击抛出一个异常')
-    }}>抛出异常</button>
     <ShadowCard>
       <Title>
         {isRegister ? '请注册' : '请登录'}

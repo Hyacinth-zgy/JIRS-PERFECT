@@ -3,10 +3,11 @@ import { List } from "./list";
 import { Typography } from "antd";
 import styled from "@emotion/styled";
 import { useUsers } from 'utils/user';
-import { useDebounce} from "utils/helper";
+import { useDebounce } from "utils/helper";
 import { useProjects } from "utils/project";
 import { useState, useEffect } from "react";
 import { SearchPannel } from "./search-panel";
+import { useDocumentTitle } from "./test";
 // VARIBLE
 
 
@@ -22,6 +23,7 @@ export const ProjectListScreen = () => {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debounceValue]);
+  useDocumentTitle('项目列表', false)
   return (
     <Container>
       <h1>项目列表</h1>
