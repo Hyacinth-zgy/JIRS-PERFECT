@@ -1,15 +1,34 @@
 // PAKAGE
 import { Row } from "component/lib";
 import styled from "@emotion/styled";
+import { ProjectScreen } from 'project'
+import { Navigate, Route, Routes, } from 'react-router';
+import { Dropdown, Menu, Button } from "antd";
 import { useAuth } from "context/auth-context";
 import { ProjectListScreen } from "project-list";
+import { BrowserRouter as Router } from 'react-router-dom';
 import { ReactComponent as SoftwareLogo } from 'assets/software-logo.svg'
-import { Dropdown, Menu, Button } from "antd";
 
 // FUNCTION
 export const AuthenticatedApp = () => {
-  const { logout, user } = useAuth();
+
   return <Container>
+    <PageHeader></PageHeader>
+    <Main>
+      <Router>
+        <Routes>
+          <Route path={'/projects'} element={<ProjectListScreen />}></Route>
+          <Route path={'/projects/:projectId/*'} element={<ProjectScreen />}></Route>\
+          <Navigate to={'/projects'}></Navigate>
+        </Routes>
+      </Router>
+    </Main>
+  </Container>
+}
+
+const PageHeader = () => {
+  const { logout, user } = useAuth();
+  return (
     <Header between={true}>
       <HeaderLeft gap={true}>
         <SoftwareLogo width={'18rem'} color={'rgb(38,132,255)'} />
@@ -29,10 +48,7 @@ export const AuthenticatedApp = () => {
         </Dropdown>
       </HeaderRight>
     </Header>
-    <Main>
-      <ProjectListScreen />
-    </Main>
-  </Container>
+  )
 }
 
 const Container = styled.div`
