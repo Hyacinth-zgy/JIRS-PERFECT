@@ -75,3 +75,7 @@ export const useArrar = <T>(initialArray: T[]) => {
     setValue
   }
 }
+
+export const resetRouter = () => {
+  window.location.href = window.location.origin
+}

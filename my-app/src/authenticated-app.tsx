@@ -1,6 +1,7 @@
 // PAKAGE
 import { Row } from "component/lib";
 import styled from "@emotion/styled";
+import { resetRouter } from 'utils/helper'
 import { ProjectScreen } from 'project'
 import { Route, Routes } from 'react-router';
 import { Dropdown, Menu, Button } from "antd";
@@ -31,7 +32,9 @@ const PageHeader = () => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
-        <SoftwareLogo width={'18rem'} color={'rgb(38,132,255)'} />
+        <Button type={'link'} onClick={resetRouter}>
+          <SoftwareLogo width={'18rem'} color={'rgb(38,132,255)'} />
+        </Button>
         <h3>项目</h3>
         <h3>用户</h3>
       </HeaderLeft>
