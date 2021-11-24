@@ -141,3 +141,15 @@ type Kakuqo = typeof kakuqo;
 
 
 # useRef 具体使用看react官网
+useRef的current属性能保存一个原始值，但是useref的改变不能引起UI的变化，可以查看官网解决办法
+
+/**
+ * as const 返回最原始的一个对象
+ */
+const a = ['jact', 12, { gender: 'male' }] as const
+
+# 键对字符串的对象约束
+{ [key in string]: string } 
+
+# 泛型限制K extends string，这里限制为string
+ <K extends string>(keys: Array<K>)
