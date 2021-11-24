@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom"
 /**
  * useSearchParams 是 react-router-dom中读取URL上参数的hook
@@ -7,9 +8,11 @@ import { useSearchParams } from "react-router-dom"
 
 export const useUrlQueryParam = <K extends string>(keys: Array<K>) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  return [keys.reduce((pre, key: K) => {
-    return { ...pre, [key]: searchParams.get(key) || '' }
-  }, {} as { [key in K]: string }), setSearchParams] as const;
+  return [useMemo(() => {
+    return keys.reduce((pre, key: K) => {
+      return { ...pre, [key]: searchParams.get(key) || '' }
+    }, {} as { [key in K]: string })
+  }, [searchParams]), setSearchParams] as const;
 }
 /**
  * as const 返回最原始的一个对象

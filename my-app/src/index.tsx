@@ -1,4 +1,5 @@
 //  PAKAGE
+import './wdyr';
 import './index.css';
 import App from './App';
 import React from 'react';

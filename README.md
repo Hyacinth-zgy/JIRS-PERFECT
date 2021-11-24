@@ -153,3 +153,33 @@ const a = ['jact', 12, { gender: 'male' }] as const
 
 # 泛型限制K extends string，这里限制为string
  <K extends string>(keys: Array<K>)
+
+ # 无线循环导致的原因，每次渲染的不是一个对象会造成页面无限循环
+ 这里keys.reduce方法每次都会返回一盒新对象，返回的新对象被UI引用到就会造成无限循环
+ export const useUrlQueryParam = <K extends string>(keys: Array<K>) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  return [keys.reduce((pre, key: K) => {
+    return { ...pre, [key]: searchParams.get(key) || '' }
+  }, {} as { [key in K]: string }), setSearchParams] as const;
+}
+解决办法:
+使用useMemo优化
+useMemo:返回一个 memoized 值。
+useMemo:把“创建”函数和依赖项数组作为参数传入 useMemo，它仅会在某个依赖项改变时才重新计算 memoized 值。这种优化有助于避免在每次渲染时都进行高开销的计算。
+useMemo:记住，传入 useMemo 的函数会在渲染期间执行。请不要在这个函数内部执行与渲染无关的操作，诸如副作用这类的操作属于 useEffect 的适用范畴，而不是 useMemo。
+如果没有提供依赖项数组，useMemo 在每次渲染时都会计算新的值。
+你可以把 useMemo 作为性能优化的手段，但不要把它当成语义上的保证。将来，React 可能会选择“遗忘”以前的一些 memoized 值，并在下次渲染时重新计算它们，比如为离屏组件释放内存。先编写在没有 useMemo 的情况下也可以执行的代码 —— 之后再在你的代码中添加 useMemo，以达到优化性能的目的。
+export const useUrlQueryParam = <K extends string>(keys: Array<K>) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  return [useMemo(() => {
+    return keys.reduce((pre, key: K) => {
+      return { ...pre, [key]: searchParams.get(key) || '' }
+    }, {} as { [key in K]: string })
+  }, [searchParams]), setSearchParams] as const;
+}
+
+# hooks依赖项
+如果使用let obj = {对象}
+useEffect(()=>{},[obj]) 会发生无限循环，react每次重新渲染都生成一个新对象
+如果使用 let [obj] = useState(null)
+useEffect(()=>{},[obj]) 不会发生无限循环，react感知到这是一个组件的state，每次重新渲染都会是同一个对象地址

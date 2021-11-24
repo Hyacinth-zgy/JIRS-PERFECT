@@ -42,6 +42,9 @@ export const ProjectListScreen = () => {
   );
 };
 
+//让ProjectListScreen被whyDidYouRender追踪
+ProjectListScreen.whyDidYouRender = true
+
 const Container = styled.div`
   padding: 3.2rem;
 `
