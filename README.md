@@ -183,3 +183,6 @@ export const useUrlQueryParam = <K extends string>(keys: Array<K>) => {
 useEffect(()=>{},[obj]) 会发生无限循环，react每次重新渲染都生成一个新对象
 如果使用 let [obj] = useState(null)
 useEffect(()=>{},[obj]) 不会发生无限循环，react感知到这是一个组件的state，每次重新渲染都会是同一个对象地址
+
+# Object.fromEntries(iterator)
+里面存放一个遍历器，将iterator对象改为一个键值对对象

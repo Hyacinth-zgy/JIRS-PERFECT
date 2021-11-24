@@ -6,7 +6,7 @@ import { useUsers } from 'utils/user';
 import { useDocumentTitle } from "./test";
 import { useDebounce } from "utils/helper";
 import { useProjects } from "utils/project";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useUrlQueryParam } from "utils/url";
 import { SearchPannel } from "./search-panel";
 // VARIBLE
@@ -14,11 +14,7 @@ import { SearchPannel } from "./search-panel";
 
 // FONCTION
 export const ProjectListScreen = () => {
-  const [, setParam] = useState({
-    name: "",
-    personId: "",
-  });
-  const [param] = useUrlQueryParam(['name', 'personId'])
+  const [param, setParam] = useUrlQueryParam(['name', 'personId'])
   const debounceValue = useDebounce(param, 2000);
   const { isLoading, isError, data: list, error } = useProjects(debounceValue);
   const { data: users } = useUsers()
