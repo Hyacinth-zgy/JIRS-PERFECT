@@ -2,7 +2,7 @@
 import { Row } from "component/lib";
 import styled from "@emotion/styled";
 import { ProjectScreen } from 'project'
-import { Navigate, Route, Routes, } from 'react-router';
+import { Route, Routes } from 'react-router';
 import { Dropdown, Menu, Button } from "antd";
 import { useAuth } from "context/auth-context";
 import { ProjectListScreen } from "project-list";
@@ -18,8 +18,8 @@ export const AuthenticatedApp = () => {
       <Router>
         <Routes>
           <Route path={'/projects'} element={<ProjectListScreen />}></Route>
-          <Route path={'/projects/:projectId/*'} element={<ProjectScreen />}></Route>\
-          <Navigate to={'/projects'}></Navigate>
+          <Route path={'/projects/:projectId/*'} element={<ProjectScreen />}></Route>
+          <Route path={'/'} element={<ProjectListScreen />}></Route>
         </Routes>
       </Router>
     </Main>
