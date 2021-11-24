@@ -142,6 +142,26 @@ type Kakuqo = typeof kakuqo;
 
 # useRef 具体使用看react官网
 useRef的current属性能保存一个原始值，但是useref的改变不能引起UI的变化，可以查看官网解决办法
+请记住，当 ref 对象内容发生变化时，useRef 并不会通知你。变更 .current 属性不会引发组件重新渲染。如果想要在 React 绑定或解绑 DOM 节点的 ref 时运行某些代码，则需要使用回调 ref 来实现。
+
+# 回调ref
+function MeasureExample() {
+  const [height, setHeight] = useState(0);
+
+  const measuredRef = useCallback(node => {
+    if (node !== null) {
+      setHeight(node.getBoundingClientRect().height);
+    }
+  }, []);
+  return (
+    <>
+      <h1 ref={measuredRef}>Hello, world</h1>
+      <h2>The above header is {Math.round(height)}px tall</h2>
+    </>
+  );
+}
+
+
 
 /**
  * as const 返回最原始的一个对象
