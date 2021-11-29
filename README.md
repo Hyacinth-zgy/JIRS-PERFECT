@@ -174,8 +174,8 @@ const a = ['jact', 12, { gender: 'male' }] as const
 # 泛型限制K extends string，这里限制为string
  <K extends string>(keys: Array<K>)
 
- # 无线循环导致的原因，每次渲染的不是一个对象会造成页面无限循环
- 这里keys.reduce方法每次都会返回一盒新对象，返回的新对象被UI引用到就会造成无限循环
+ # 無限循环导致的原因，每次渲染的不是一个对象会造成页面无限循环
+ 这里keys.reduce方法每次都会返回一個新对象，返回的新对象被UI引用到就会造成无限循环
  export const useUrlQueryParam = <K extends string>(keys: Array<K>) => {
   const [searchParams, setSearchParams] = useSearchParams();
   return [keys.reduce((pre, key: K) => {
