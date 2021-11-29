@@ -3,13 +3,16 @@ import dayjs from 'dayjs';
 import { User } from './search-panel';
 import { Table, TableProps } from 'antd';
 import { Link } from 'react-router-dom'
+import { Pin } from 'component/pin';
+import { useEditProject } from 'utils/project';
 
 export interface Project {
-  id: string,
+  id: number,
   name: string,
   organization: string,
-  personId: string,
+  personId: number,
   created: string,
+  pin: boolean
 }
 
 // 直接继承TableProps就不需要自己写loading属性
@@ -17,8 +20,16 @@ interface ListProps extends TableProps<Project> {
   users: User[]
 }
 export const List = ({ users, ...props }: ListProps) => {
+  const { mutate } = useEditProject()
   return (
     <Table pagination={false} columns={[{
+      title: <Pin checked={true} disabled={true}></Pin>,
+      render(value, project) {
+        return <Pin checked={project.pin} onCheckedChange={(pin) => {
+          mutate({ id: project.id, pin })
+        }} />
+      }
+    }, {
       title: '名称',
       sorter: (a, b) => {
         return a.name.localeCompare(b.name)

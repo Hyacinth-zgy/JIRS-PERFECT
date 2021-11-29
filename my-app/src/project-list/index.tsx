@@ -7,15 +7,17 @@ import { useDocumentTitle } from "./test";
 import { useDebounce } from "utils/helper";
 import { useProjects } from "utils/project";
 import { useEffect } from "react";
-import { useUrlQueryParam } from "utils/url";
 import { SearchPannel } from "./search-panel";
+import { useProjectsSearchParams } from './utill';
 // VARIBLE
 
 
 // FONCTION
 export const ProjectListScreen = () => {
-  const [param, setParam] = useUrlQueryParam(['name', 'personId'])
-  const debounceValue = useDebounce(param, 2000);
+  // const [param, setParam] = useUrlQueryParam(['name', 'personId']);
+  // const projectsParams = { ...param, personId: Number(param.personId) || undefined }
+  const [projectsParams, setParam] = useProjectsSearchParams()
+  const debounceValue = useDebounce(projectsParams, 2000);
   const { isLoading, isError, data: list, error } = useProjects(debounceValue);
   const { data: users } = useUsers()
   useEffect(() => {
@@ -27,7 +29,7 @@ export const ProjectListScreen = () => {
       <h1>项目列表</h1>
       <SearchPannel
         setParam={setParam}
-        param={param}
+        param={projectsParams}
         users={users || []}
       ></SearchPannel>
       {

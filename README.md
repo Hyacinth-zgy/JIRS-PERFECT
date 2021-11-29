@@ -206,3 +206,9 @@ useEffect(()=>{},[obj]) 不会发生无限循环，react感知到这是一个组
 
 # Object.fromEntries(iterator)
 里面存放一个遍历器，将iterator对象改为一个键值对对象
+
+# 獲取到組件上所有屬性的定義
+type SelectProps = React.ComponentProps<typeof Select>;
+
+# 不能将类型“undefined”分配给类型“number”
+这种类型的错可以让该参数可传可不传 Partial
