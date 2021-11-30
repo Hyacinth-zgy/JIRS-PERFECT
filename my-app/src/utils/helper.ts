@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const isVoid = (value: unknown) => {
   return value === undefined || value === null || value === "";
@@ -78,4 +78,19 @@ export const useArrar = <T>(initialArray: T[]) => {
 
 export const resetRouter = () => {
   window.location.href = window.location.origin
+}
+
+/**
+ * 返回组件的挂在状态，如果还没挂在或者已经挂载，返回false，反之，返回true
+ * @returns mountedRef
+ */
+export const useMountedRef = () => {
+  const mountedRef = useRef(false);
+  useEffect(() => {
+    mountedRef.current = true
+    return () => {
+      mountedRef.current = false
+    }
+  })
+  return mountedRef
 }
