@@ -224,5 +224,8 @@ const [value,setValue] = useState(()=>{return value});
 可以将返回的类型设置为一个函数就行了
 const [value,setValue] =  useState(()=>{return ()=>{}});
 
+# 当我们写自定义hook的时候，如果有函数作为依赖，需要用到useCallBack
+# 使用自定义函数或者自定义对象的时候作为依赖一定要检查是否需要用到useMemo和useCallBack来限制，小心造成无限循环
+
 
 
