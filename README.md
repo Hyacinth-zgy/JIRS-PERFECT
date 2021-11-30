@@ -142,6 +142,7 @@ type Kakuqo = typeof kakuqo;
 
 # useRef 具体使用看react官网
 useRef的current属性能保存一个原始值，但是useref的改变不能引起UI的变化，可以查看官网解决办法
+UI不会变化时，当我们修改useRef.current 的值的时候，如果还要继续使用useRef的值就要直接读取uerRef.current中的值
 请记住，当 ref 对象内容发生变化时，useRef 并不会通知你。变更 .current 属性不会引发组件重新渲染。如果想要在 React 绑定或解绑 DOM 节点的 ref 时运行某些代码，则需要使用回调 ref 来实现。
 
 # 回调ref
@@ -215,6 +216,13 @@ type SelectProps = React.ComponentProps<typeof Select>;
 
 # useState可以传入一个函数，传入的函数是用来多惰性初始化value的值（需要通过计算得到才可以得到的值），所以这样使用：
 const [value,setValue] = useState(()=>{return value});
-里面的箭头函数就会立即被调用，被调用后返回的值就越是value的初始值
-调用setValue的时候就相当于是将（）=》{return value}在执行一遍
-所以这里传入一个函数在useState中不是为了保存一个函数，而是为了惰性初始化一个值
+里面的箭头函数就会立即被调用，被调用后返回的值就越是value的初始值。
+调用setValue也需要在setValue中传入一个函数，并返回一个值作为更新value的值。
+所以这里传入一个函数在useState中不是为了保存一个函数，而是为了惰性初始化一个值。
+
+# useState中保存一个函数的方法
+可以将返回的类型设置为一个函数就行了
+const [value,setValue] =  useState(()=>{return ()=>{}});
+
+
+

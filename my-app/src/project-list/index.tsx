@@ -18,7 +18,7 @@ export const ProjectListScreen = () => {
   // const projectsParams = { ...param, personId: Number(param.personId) || undefined }
   const [projectsParams, setParam] = useProjectsSearchParams()
   const debounceValue = useDebounce(projectsParams, 2000);
-  const { isLoading, isError, data: list, error } = useProjects(debounceValue);
+  const { isLoading, isError, data: list, error, retry } = useProjects(debounceValue);
   const { data: users } = useUsers()
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -35,7 +35,7 @@ export const ProjectListScreen = () => {
       {
         isError ? <Typography.Text type={'danger'}>{error?.message}</Typography.Text> : null
       }
-      <List loading={isLoading} dataSource={list || []} users={users || []}></List>
+      <List refresh={retry} loading={isLoading} dataSource={list || []} users={users || []}></List>
     </Container>
   );
 };
