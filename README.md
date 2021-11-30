@@ -212,3 +212,9 @@ type SelectProps = React.ComponentProps<typeof Select>;
 
 # 不能将类型“undefined”分配给类型“number”
 这种类型的错可以让该参数可传可不传 Partial
+
+# useState可以传入一个函数，传入的函数是用来多惰性初始化value的值（需要通过计算得到才可以得到的值），所以这样使用：
+const [value,setValue] = useState(()=>{return value});
+里面的箭头函数就会立即被调用，被调用后返回的值就越是value的初始值
+调用setValue的时候就相当于是将（）=》{return value}在执行一遍
+所以这里传入一个函数在useState中不是为了保存一个函数，而是为了惰性初始化一个值

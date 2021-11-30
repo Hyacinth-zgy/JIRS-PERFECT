@@ -62,6 +62,8 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
     run,
     setData,
     setError,
+    // 当retry被调用时，重新调用一下run发方法，让state刷新一遍
+    retry: () => { },
     ...state
   }
 }
