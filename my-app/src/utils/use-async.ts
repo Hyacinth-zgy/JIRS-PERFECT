@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useMountedRef } from 'utils/helper'
 
 interface State<D> {
@@ -25,21 +25,21 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
   })
   const mountedRefs = useMountedRef();
   const [retry, setRetry] = useState(() => () => { })
-  const setData = (data: D) => {
+  const setData = useCallback((data: D) => {
     setState({
       data,
       stat: 'success',
       error: null
     })
-  }
-  const setError = (error: Error) => {
+  }, [])
+  const setError = useCallback((error: Error) => {
     setState({
       data: null,
       error,
       stat: 'error'
     })
-  }
-  const run = (promise: Promise<D>, runConfig?: {
+  }, [])
+  const run = useCallback((promise: Promise<D>, runConfig?: {
     retry: () => Promise<D>
   }) => {
     if (!promise || !promise.then) {
@@ -50,10 +50,10 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
         run(runConfig?.retry(), runConfig)
       })
     }
-    setState({
-      ...state,
+    setState((preState) => ({
+      ...preState,
       stat: 'loading'
-    })
+    }))
     return promise.then(data => {
       if (mountedRefs.current) setData(data);
       return data;
@@ -62,7 +62,7 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
       if (config.throwOnError) return Promise.reject(error);
       return error;
     })
-  }
+  }, [config.throwOnError, mountedRefs, setData, setError])
 
   return {
     isIdle: state.stat === 'idle',

@@ -28,7 +28,6 @@ export const AuthenticatedApp = () => {
 }
 
 const PageHeader = () => {
-  const { logout, user } = useAuth();
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
@@ -39,18 +38,25 @@ const PageHeader = () => {
         <h3>用户</h3>
       </HeaderLeft>
       <HeaderRight>
-        <Dropdown overlay={
-          <Menu>
-            <Menu.Item key={'lagput'}>
-              <Button type={'link'} onClick={logout}>退出登录</Button>
-            </Menu.Item>
-          </Menu>
-        }>
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <Button type={'link'} onClick={e => e.preventDefault()}>Hi!{user?.name}</Button>
-        </Dropdown>
+        <User></User>
       </HeaderRight>
     </Header>
+  )
+}
+
+const User = () => {
+  const { logout, user } = useAuth();
+  return (
+    <Dropdown overlay={
+      <Menu>
+        <Menu.Item key={'lagput'}>
+          <Button type={'link'} onClick={logout}>退出登录</Button>
+        </Menu.Item>
+      </Menu>
+    }>
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+      <Button type={'link'} onClick={e => e.preventDefault()}>Hi!{user?.name}</Button>
+    </Dropdown>
   )
 }
 
