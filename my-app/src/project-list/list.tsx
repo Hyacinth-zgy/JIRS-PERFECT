@@ -22,48 +22,57 @@ interface ListProps extends TableProps<Project> {
 export const List = ({ users, ...props }: ListProps) => {
   const { mutate } = useEditProject()
   return (
-    <Table pagination={false} columns={[{
-      title: <Pin checked={true} disabled={true}></Pin>,
-      render(value, project) {
-        return <Pin checked={project.pin} onCheckedChange={(pin) => {
-          mutate({ id: project.id, pin })
-        }} />
-      }
-    }, {
-      title: '名称',
-      sorter: (a, b) => {
-        return a.name.localeCompare(b.name)
-      },
-      render(_value, project) {
-        return <span>
-          <Link key={project.id} to={String(project.id)}>{project.name}</Link>
-        </span>
+    <Table pagination={false} columns={[
+      {
+        title: <Pin checked={true} disabled={true}></Pin>,
+        render(value, project) {
+          return (
+            <Pin
+              checked={project.pin}
+              onCheckedChange={(pin) => {
+                mutate({
+                  id: project.id,
+                  pin,
+                });
+              }}
+            ></Pin>
+          );
+        },
+      }, {
+        title: '名称',
+        sorter: (a, b) => {
+          return a.name.localeCompare(b.name)
+        },
+        render(_value, project) {
+          return <span>
+            <Link key={project.id} to={String(project.id)}>{project.name}</Link>
+          </span>
 
-      }
-    },
-    {
-      title: '部门',
-      dataIndex: 'organization'
-    },
-    {
-      title: "负责人",
-      render(value, project) {
-        return <span>
-          {users.find((item) => {
-            return project.personId === item.id;
-          })?.name || "未知"}
-        </span>
-      }
-    }, {
-      title: '创建时间',
-      render(value, project) {
-        return <span>
-          {
-            project.created ? dayjs(project.created).format('YYYY-MM-DD') : '--'
-          }
-        </span>
-      }
-    }]} {...props}>
+        }
+      },
+      {
+        title: '部门',
+        dataIndex: 'organization'
+      },
+      {
+        title: "负责人",
+        render(value, project) {
+          return <span>
+            {users.find((item) => {
+              return project.personId === item.id;
+            })?.name || "未知"}
+          </span>
+        }
+      }, {
+        title: '创建时间',
+        render(value, project) {
+          return <span>
+            {
+              project.created ? dayjs(project.created).format('YYYY-MM-DD') : '--'
+            }
+          </span>
+        }
+      }]} {...props}>
     </Table>
   );
 };
