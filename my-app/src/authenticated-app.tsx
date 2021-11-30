@@ -1,4 +1,5 @@
 // PAKAGE
+import { useState } from "react";
 import { Row } from "component/lib";
 import styled from "@emotion/styled";
 import { resetRouter } from 'utils/helper'
@@ -9,10 +10,12 @@ import { useAuth } from "context/auth-context";
 import { ProjectListScreen } from "project-list";
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ReactComponent as SoftwareLogo } from 'assets/software-logo.svg'
+import { ProjectModal } from "project-list/project-modal";
+import { ProjectOpover } from "component/project-opover";
 
 // FUNCTION
 export const AuthenticatedApp = () => {
-
+  const [projectModalOpen, setProjectModalOpen] = useState(false);
   return <Container>
     <PageHeader></PageHeader>
     <Main>
@@ -24,6 +27,9 @@ export const AuthenticatedApp = () => {
         </Routes>
       </Router>
     </Main>
+    <ProjectModal projectModalOpen={projectModalOpen} onClose={() => {
+      setProjectModalOpen(false)
+    }}></ProjectModal>
   </Container>
 }
 
@@ -36,6 +42,7 @@ const PageHeader = () => {
         </Button>
         <h3>项目</h3>
         <h3>用户</h3>
+        <ProjectOpover></ProjectOpover>
       </HeaderLeft>
       <HeaderRight>
         <User></User>
