@@ -47,7 +47,6 @@ export const List = ({ users, ...props }: ListProps) => {
           return <span>
             <Link key={project.id} to={String(project.id)}>{project.name}</Link>
           </span>
-
         }
       },
       {
