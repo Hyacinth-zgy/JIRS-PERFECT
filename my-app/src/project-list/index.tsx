@@ -13,7 +13,7 @@ import { useProjectsSearchParams } from './utill';
 
 
 // FONCTION
-export const ProjectListScreen = ({ setProjectModalOpen }: { setProjectModalOpen: (isOpen: boolean) => void }) => {
+export const ProjectListScreen = ({ projectButton }: { projectButton: JSX.Element }) => {
   // const [param, setParam] = useUrlQueryParam(['name', 'personId']);
   // const projectsParams = { ...param, personId: Number(param.personId) || undefined }
   const [projectsParams, setParam] = useProjectsSearchParams()
@@ -28,7 +28,9 @@ export const ProjectListScreen = ({ setProjectModalOpen }: { setProjectModalOpen
     <Container>
       <RowCus>
         <h1>项目列表</h1>
-        <Button onClick={() => { setProjectModalOpen(true) }}>创建项目</Button>
+        {
+          projectButton
+        }
       </RowCus>
       <SearchPannel
         setParam={setParam}
@@ -38,7 +40,7 @@ export const ProjectListScreen = ({ setProjectModalOpen }: { setProjectModalOpen
       {
         isError ? <Typography.Text type={'danger'}>{error?.message}</Typography.Text> : null
       }
-      <List refresh={retry} loading={isLoading} setProjectModalOpen={setProjectModalOpen} dataSource={list || []} users={users || []}></List>
+      <List refresh={retry} loading={isLoading} projectButton={projectButton} dataSource={list || []} users={users || []}></List>
     </Container>
   );
 };

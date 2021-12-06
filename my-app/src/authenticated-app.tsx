@@ -1,6 +1,6 @@
 // PAKAGE
-import { useState } from "react";
-import { Row } from "component/lib";
+import { ReactElement, useState } from "react";
+import { ButtonNoPadding, Row } from "component/lib";
 import styled from "@emotion/styled";
 import { resetRouter } from 'utils/helper'
 import { ProjectScreen } from 'project'
@@ -17,13 +17,13 @@ import { ProjectOpover } from "component/project-opover";
 export const AuthenticatedApp = () => {
   const [projectModalOpen, setProjectModalOpen] = useState(false);
   return <Container>
-    <PageHeader setProjectModalOpen={setProjectModalOpen}></PageHeader>
+    <PageHeader projectButton={<ButtonNoPadding type={'link'} onClick={() => { setProjectModalOpen(true) }}>创建项目</ButtonNoPadding>}></PageHeader>
     <Main>
       <Router>
         <Routes>
-          <Route path={'/projects'} element={<ProjectListScreen setProjectModalOpen={setProjectModalOpen} />}></Route>
+          <Route path={'/projects'} element={<ProjectListScreen projectButton={<ButtonNoPadding type={'link'} onClick={() => { setProjectModalOpen(true) }}>创建项目</ButtonNoPadding>} />}></Route>
           <Route path={'/projects/:projectId/*'} element={<ProjectScreen />}></Route>
-          <Route path={'/'} element={<ProjectListScreen setProjectModalOpen={setProjectModalOpen} />}></Route>
+          <Route path={'/'} element={<ProjectListScreen projectButton={<ButtonNoPadding type={'link'} onClick={() => { setProjectModalOpen(true) }}>创建项目</ButtonNoPadding>} />}></Route>
         </Routes>
       </Router>
     </Main>
@@ -33,7 +33,7 @@ export const AuthenticatedApp = () => {
   </Container>
 }
 
-const PageHeader = (props: { setProjectModalOpen: (isOpen: boolean) => void }) => {
+const PageHeader = (props: { projectButton: JSX.Element }) => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
@@ -41,7 +41,7 @@ const PageHeader = (props: { setProjectModalOpen: (isOpen: boolean) => void }) =
           <SoftwareLogo width={'18rem'} color={'rgb(38,132,255)'} />
         </Button>
         <span>用户</span>
-        <ProjectOpover setProjectModalOpen={props.setProjectModalOpen}></ProjectOpover>
+        <ProjectOpover {...props}></ProjectOpover>
       </HeaderLeft>
       <HeaderRight>
         <User></User>
