@@ -1,6 +1,6 @@
 // PAKAGEJSON
 import { List } from "./list";
-import { Typography } from "antd";
+import { Button, Row, Typography } from "antd";
 import styled from "@emotion/styled";
 import { useUsers } from 'utils/user';
 import { useDocumentTitle } from "./test";
@@ -13,7 +13,7 @@ import { useProjectsSearchParams } from './utill';
 
 
 // FONCTION
-export const ProjectListScreen = () => {
+export const ProjectListScreen = ({ setProjectModalOpen }: { setProjectModalOpen: (isOpen: boolean) => void }) => {
   // const [param, setParam] = useUrlQueryParam(['name', 'personId']);
   // const projectsParams = { ...param, personId: Number(param.personId) || undefined }
   const [projectsParams, setParam] = useProjectsSearchParams()
@@ -26,7 +26,10 @@ export const ProjectListScreen = () => {
   useDocumentTitle('项目列表', false);
   return (
     <Container>
-      <h1>项目列表</h1>
+      <RowCus>
+        <h1>项目列表</h1>
+        <Button onClick={() => { setProjectModalOpen(true) }}>创建项目</Button>
+      </RowCus>
       <SearchPannel
         setParam={setParam}
         param={projectsParams}
@@ -35,7 +38,7 @@ export const ProjectListScreen = () => {
       {
         isError ? <Typography.Text type={'danger'}>{error?.message}</Typography.Text> : null
       }
-      <List refresh={retry} loading={isLoading} dataSource={list || []} users={users || []}></List>
+      <List refresh={retry} loading={isLoading} setProjectModalOpen={setProjectModalOpen} dataSource={list || []} users={users || []}></List>
     </Container>
   );
 };
@@ -45,4 +48,9 @@ ProjectListScreen.whyDidYouRender = true
 
 const Container = styled.div`
   padding: 3.2rem;
+`
+
+const RowCus = styled(Row)`
+  display: flex;
+  justify-content: space-between;
 `

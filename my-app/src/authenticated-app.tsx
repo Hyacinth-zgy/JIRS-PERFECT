@@ -17,13 +17,13 @@ import { ProjectOpover } from "component/project-opover";
 export const AuthenticatedApp = () => {
   const [projectModalOpen, setProjectModalOpen] = useState(false);
   return <Container>
-    <PageHeader></PageHeader>
+    <PageHeader setProjectModalOpen={setProjectModalOpen}></PageHeader>
     <Main>
       <Router>
         <Routes>
-          <Route path={'/projects'} element={<ProjectListScreen />}></Route>
+          <Route path={'/projects'} element={<ProjectListScreen setProjectModalOpen={setProjectModalOpen} />}></Route>
           <Route path={'/projects/:projectId/*'} element={<ProjectScreen />}></Route>
-          <Route path={'/'} element={<ProjectListScreen />}></Route>
+          <Route path={'/'} element={<ProjectListScreen setProjectModalOpen={setProjectModalOpen} />}></Route>
         </Routes>
       </Router>
     </Main>
@@ -33,16 +33,15 @@ export const AuthenticatedApp = () => {
   </Container>
 }
 
-const PageHeader = () => {
+const PageHeader = (props: { setProjectModalOpen: (isOpen: boolean) => void }) => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
-        <Button type={'link'} onClick={resetRouter}>
+        <Button style={{ padding: 0 }} type={'link'} onClick={resetRouter}>
           <SoftwareLogo width={'18rem'} color={'rgb(38,132,255)'} />
         </Button>
-        <h3>项目</h3>
-        <h3>用户</h3>
-        <ProjectOpover></ProjectOpover>
+        <span>用户</span>
+        <ProjectOpover setProjectModalOpen={props.setProjectModalOpen}></ProjectOpover>
       </HeaderLeft>
       <HeaderRight>
         <User></User>

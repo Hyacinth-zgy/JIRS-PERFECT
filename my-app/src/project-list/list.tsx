@@ -1,10 +1,11 @@
 // PAKAGE
 import dayjs from 'dayjs';
 import { User } from './search-panel';
-import { Table, TableProps } from 'antd';
+import { Dropdown, Table, TableProps, Menu } from 'antd';
 import { Link } from 'react-router-dom'
 import { Pin } from 'component/pin';
 import { useEditProject } from 'utils/project';
+import { ButtonNoPadding } from 'component/lib';
 
 export interface Project {
   id: number,
@@ -18,7 +19,8 @@ export interface Project {
 // 直接继承TableProps就不需要自己写loading属性
 interface ListProps extends TableProps<Project> {
   users: User[],
-  refresh?: () => void
+  refresh?: () => void,
+  setProjectModalOpen: (isOpen: boolean) => void
 }
 export const List = ({ users, ...props }: ListProps) => {
   const { mutate } = useEditProject();
@@ -69,6 +71,20 @@ export const List = ({ users, ...props }: ListProps) => {
               project.created ? dayjs(project.created).format('YYYY-MM-DD') : '--'
             }
           </span>
+        }
+      }, {
+        render(value, project) {
+          return <Dropdown overlay={
+            <Menu>
+              <Menu.Item key={'edit'}>
+                <ButtonNoPadding type={'link'} onClick={() => {
+                  props.setProjectModalOpen(true)
+                }}>编辑</ButtonNoPadding>
+              </Menu.Item>
+            </Menu>
+          }>
+            <ButtonNoPadding type={'link'}>...</ButtonNoPadding>
+          </Dropdown>
         }
       }]} {...props}>
     </Table>

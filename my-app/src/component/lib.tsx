@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Spin, Typography } from "antd";
+import { Button, Spin, Typography } from "antd";
 
 // Row 为自定义样式组件，可接收传入的props作为参数
 export const Row = styled.div<{
@@ -38,3 +38,7 @@ export const FullPageErrorFallback = ({ error }: { error: Error | null }) => {
     <Typography.Text type={'danger'}>{error?.message}</Typography.Text>
   </FullPage>
 }
+
+export const ButtonNoPadding = styled(Button)`
+  padding: 0;
+`
