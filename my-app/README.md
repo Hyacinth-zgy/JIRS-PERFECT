@@ -143,3 +143,9 @@ React 认为的变化就变成：
                          |  <div key="1">new-guy</div>
 <div key="1">bob</div>   |  <div key="2">bob</div>
 <div key="2">sue</div>   |  <div key="3">sue</div>
+
+
+
+# ReactRedux 和 Redux扮演的数据角色
+Redux扮演的的是公共数据仓库
+ReactRedux 扮演的是将数据仓库中的数据转换为react状态，驱动视图更新，reactRedux扮演一个链接层
